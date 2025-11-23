@@ -4,7 +4,7 @@
     "version": "2.0",
     "category": "Gestion",
     "author": "Abdelhalim",
-    "depends": ["base"],
+    "depends": ["base", "hr"],
     "data": [
         'security/security.xml',
         'security/ir.model.access.csv',
@@ -16,6 +16,7 @@
         'views/prescription.xml',
         'views/medicament.xml',
         'views/rendez_vous.xml',
+        'views/employee.xml',
     ],
     "installable": True,
     "application": True,
