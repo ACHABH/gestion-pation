@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Rendez-vous Form View -->
+    <record id="medical_rendez_vous_form_view" model="ir.ui.view">
+        <field name="name">medical.rendez.vous.form</field>
+        <field name="model">medical.rendez.vous</field>
+        <field name="arch" type="xml">
+            <form string="Rendez-vous">
+                <header>
+                    <field name="etat" widget="statusbar" statusbar_visible="planifie,confirme,termine"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="medecin_id"/>
+                        </group>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="motif"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Rendez-vous Tree View -->
+    <record id="medical_rendez_vous_tree_view" model="ir.ui.view">
+        <field name="name">medical.rendez.vous.tree</field>
+        <field name="model">medical.rendez.vous</field>
+        <field name="arch" type="xml">
+            <tree string="Rendez-vous" decoration-danger="etat=='annule'" decoration-success="etat=='termine'" decoration-info="etat=='confirme'">
+                <field name="date"/>
+                <field name="medecin_id"/>
+                <field name="patient_id"/>
+                <field name="motif"/>
+                <field name="etat"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Rendez-vous Search View -->
+    <record id="medical_rendez_vous_search_view" model="ir.ui.view">
+        <field name="name">medical.rendez.vous.search</field>
+        <field name="model">medical.rendez.vous</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher un rendez-vous">
+                <!-- Search Fields -->
+                <field name="medecin_id" operator="child_of"/>
+                <field name="patient_id" operator="child_of"/>
+                <field name="motif"/>
+                <field name="date"/>
+                
+                <!-- Status Filters -->
+                <filter string="Planifiés" name="planifie" domain="[('etat', '=', 'planifie')]"/>
+                <filter string="Confirmés" name="confirme" domain="[('etat', '=', 'confirme')]"/>
+                <filter string="Terminés" name="termine" domain="[('etat', '=', 'termine')]"/>
+                <filter string="Annulés" name="annule" domain="[('etat', '=', 'annule')]"/>
+                
+                <!-- Today's Appointments -->
+                <filter string="Aujourd'hui" name="today" 
+                        domain="[('date::date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                
+                <!-- Group By -->
+                <group expand="0" string="Grouper Par">
+                    <filter string="Médecin" name="medecin" context="{'group_by': 'medecin_id'}"/>
+                    <filter string="Patient" name="patient" context="{'group_by': 'patient_id'}"/>
+                    <filter string="État" name="etat" context="{'group_by': 'etat'}"/>
+                    <filter string="Mois" name="month" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Rendez-vous Calendar View -->
+    <record id="medical_rendez_vous_calendar_view" model="ir.ui.view">
+        <field name="name">medical.rendez.vous.calendar</field>
+        <field name="model">medical.rendez.vous</field>
+        <field name="arch" type="xml">
+            <calendar string="Rendez-vous" date_start="date" color="medecin_id">
+                <field name="patient_id"/>
+                <field name="medecin_id"/>
+                <field name="motif"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Rendez-vous Action Window -->
+    <record id="action_medical_rendez_vous" model="ir.actions.act_window">
+        <field name="name">Rendez-vous</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.rendez.vous</field>
+        <field name="view_mode">calendar,tree,form</field>
+        <field name="search_view_id" ref="medical_rendez_vous_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer votre premier rendez-vous
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu item -->
+    <menuitem id="menu_medical_rendez_vous"
+              name="Rendez-vous"
+              parent="menu_medical_root"
+              action="action_medical_rendez_vous"
+              sequence="50"/>
+</odoo>

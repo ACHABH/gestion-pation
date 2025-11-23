@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Prescription Form View -->
+    <record id="medical_prescription_form_view" model="ir.ui.view">
+        <field name="name">medical.prescription.form</field>
+        <field name="model">medical.prescription</field>
+        <field name="arch" type="xml">
+            <form string="Prescription">
+                <header>
+                    <button name="%(action_add_medicament_wizard)d" 
+                            string="Ajouter un médicament" 
+                            type="action" 
+                            class="oe_highlight"/>
+                    <button name="%(action_reset_medicaments_wizard)d" 
+                            string="Réinitialiser médicaments" 
+                            type="action" 
+                            class="btn-danger"
+                            groups="gestion_patient.group_medical_doctor"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="medecin_id"/>
+                        </group>
+                        <group>
+                            <field name="patient_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Médicaments">
+                            <field name="medicament_ids">
+                                <tree editable="bottom">
+                                    <field name="medicament_id"/>
+                                    <field name="date_prise"/>
+                                    <field name="posologie"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Prescription Tree View -->
+    <record id="medical_prescription_tree_view" model="ir.ui.view">
+        <field name="name">medical.prescription.tree</field>
+        <field name="model">medical.prescription</field>
+        <field name="arch" type="xml">
+            <tree string="Prescriptions">
+                <field name="date"/>
+                <field name="medecin_id"/>
+                <field name="patient_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Prescription Search View -->
+    <record id="medical_prescription_search_view" model="ir.ui.view">
+        <field name="name">medical.prescription.search</field>
+        <field name="model">medical.prescription</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher une prescription">
+                <field name="medecin_id"/>
+                <field name="patient_id"/>
+                <field name="date"/>
+                <group expand="0" string="Grouper Par">
+                    <filter string="Médecin" name="medecin" context="{'group_by': 'medecin_id'}"/>
+                    <filter string="Patient" name="patient" context="{'group_by': 'patient_id'}"/>
+                    <filter string="Date" name="date" context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Prescription Action Window -->
+    <record id="action_medical_prescription" model="ir.actions.act_window">
+        <field name="name">Prescriptions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.prescription</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="medical_prescription_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer votre première prescription
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu item -->
+    <menuitem id="menu_medical_prescription"
+              name="Prescriptions"
+              parent="menu_medical_root"
+              action="action_medical_prescription"
+              sequence="30"/>
+</odoo>

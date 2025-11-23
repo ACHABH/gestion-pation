@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue formulaire du wizard d'ajout de médicament -->
+    <record id="view_add_medicament_wizard_form" model="ir.ui.view">
+        <field name="name">add.medicament.wizard.form</field>
+        <field name="model">add.medicament.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Ajouter un médicament">
+                <group>
+                    <field name="prescription_id" readonly="1"/>
+                    <field name="medicament_id"/>
+                    <field name="posologie" placeholder="Ex: 2 comprimés par jour"/>
+                    <field name="date_prise"/>
+                </group>
+                <footer>
+                    <button name="action_add_medicament" 
+                            string="Ajouter le médicament" 
+                            type="object" 
+                            class="btn-primary"/>
+                    <button string="Annuler" 
+                            class="btn-secondary" 
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action pour ouvrir le wizard -->
+    <record id="action_add_medicament_wizard" model="ir.actions.act_window">
+        <field name="name">Ajouter un médicament</field>
+        <field name="res_model">add.medicament.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_medical_prescription"/>
+    </record>
+
+</odoo>

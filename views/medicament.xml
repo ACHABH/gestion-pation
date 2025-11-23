@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Medicament Form View -->
+    <record id="medical_medicament_form_view" model="ir.ui.view">
+        <field name="name">medical.medicament.form</field>
+        <field name="model">medical.medicament</field>
+        <field name="arch" type="xml">
+            <form string="Médicament">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="nom_commercial"/>
+                            <field name="dci"/>
+                        </group>
+                        <group>
+                            <field name="forme"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Medicament Tree View -->
+    <record id="medical_medicament_tree_view" model="ir.ui.view">
+        <field name="name">medical.medicament.tree</field>
+        <field name="model">medical.medicament</field>
+        <field name="arch" type="xml">
+            <tree string="Médicaments">
+                <field name="nom_commercial"/>
+                <field name="dci"/>
+                <field name="forme"/>
+            </tree>
+        </field>
+    </record>
+
+    
+    <record id="medical_medicament_search_view" model="ir.ui.view">
+        <field name="name">medical.medicament.search</field>
+        <field name="model">medical.medicament</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher un médicament">
+                <!-- Search Fields -->
+                <field name="nom_commercial"/>
+                <field name="dci"/>
+                <field name="forme"/>
+                
+                <!-- Form Filters -->
+                <filter string="Comprimés" name="comprimes" domain="[('forme', '=', 'comprime')]"/>
+                <filter string="Sirops" name="sirops" domain="[('forme', '=', 'sirop')]"/>
+                <filter string="Gélules" name="gelules" domain="[('forme', '=', 'gelule')]"/>
+                <filter string="Pommades" name="pommades" domain="[('forme', '=', 'pommade')]"/>
+                <filter string="Gels" name="gels" domain="[('forme', '=', 'gel')]"/>
+                <filter string="Injections" name="injections" domain="[('forme', '=', 'injection')]"/>
+                
+                <!-- Group By -->
+                <group expand="0" string="Grouper Par">
+                    <filter string="Forme" name="forme" context="{'group_by': 'forme'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    
+    <record id="action_medical_medicament" model="ir.actions.act_window">
+        <field name="name">Médicaments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.medicament</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="medical_medicament_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer votre premier médicament
+            </p>
+        </field>
+    </record>
+
+    
+    <menuitem id="menu_medical_medicament"
+              name="Médicaments"
+              parent="menu_medical_root"
+              action="action_medical_medicament"
+              sequence="40"/>
+</odoo>

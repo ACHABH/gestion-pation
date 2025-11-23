@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue formulaire pour les lignes de médicament du wizard -->
+    <record id="view_prescription_wizard_line_form" model="ir.ui.view">
+        <field name="name">prescription.wizard.line.form</field>
+        <field name="model">prescription.wizard.line</field>
+        <field name="arch" type="xml">
+            <form string="Ligne de médicament">
+                <group>
+                    <field name="medicament_id"/>
+                    <field name="posologie"/>
+                    <field name="date_prise"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue tree pour les lignes de médicament du wizard -->
+    <record id="view_prescription_wizard_line_tree" model="ir.ui.view">
+        <field name="name">prescription.wizard.line.tree</field>
+        <field name="model">prescription.wizard.line</field>
+        <field name="arch" type="xml">
+            <tree string="Médicaments" editable="bottom">
+                <field name="medicament_id"/>
+                <field name="posologie"/>
+                <field name="date_prise"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue formulaire du wizard de prescription -->
+    <record id="view_prescription_wizard_form" model="ir.ui.view">
+        <field name="name">prescription.wizard.form</field>
+        <field name="model">prescription.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Créer une prescription">
+                <group>
+                    <group>
+                        <field name="patient_id" readonly="1"/>
+                        <field name="medecin_id"/>
+                    </group>
+                    <group>
+                        <field name="date"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Médicaments">
+                        <field name="ligne_medicament_ids">
+                            <tree editable="bottom">
+                                <field name="medicament_id"/>
+                                <field name="posologie"/>
+                                <field name="date_prise"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+                <footer>
+                    <button name="action_create_prescription" 
+                            string="Créer la prescription" 
+                            type="object" 
+                            class="btn-primary"/>
+                    <button string="Annuler" 
+                            class="btn-secondary" 
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action pour ouvrir le wizard -->
+    <record id="action_prescription_wizard" model="ir.actions.act_window">
+        <field name="name">Créer une prescription</field>
+        <field name="res_model">prescription.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_medical_patient"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue formulaire du wizard de réinitialisation des médicaments -->
+    <record id="view_reset_medicaments_wizard_form" model="ir.ui.view">
+        <field name="name">reset.medicaments.wizard.form</field>
+        <field name="model">reset.medicaments.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Réinitialiser les médicaments">
+                <group>
+                    <field name="prescription_id" readonly="1"/>
+                    <field name="medicament_count" readonly="1"/>
+                </group>
+                <group>
+                    <div class="alert alert-warning" role="alert" style="margin-bottom: 10px;">
+                        <strong>⚠️ Attention !</strong>
+                        <p>Cette action va supprimer définitivement <strong>tous les médicaments</strong> de cette prescription.</p>
+                        <p>Cette opération est <strong>irréversible</strong>.</p>
+                    </div>
+                </group>
+                <group>
+                    <field name="confirmation" 
+                           string="☑ Je confirme vouloir supprimer tous les médicaments de cette prescription"/>
+                </group>
+                <footer>
+                    <button name="action_reset_medicaments" 
+                            string="Supprimer tous les médicaments" 
+                            type="object" 
+                            class="btn-danger"
+                            confirm="Êtes-vous absolument sûr de vouloir supprimer tous les médicaments ?"/>
+                    <button string="Annuler" 
+                            class="btn-secondary" 
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action pour ouvrir le wizard -->
+    <record id="action_reset_medicaments_wizard" model="ir.actions.act_window">
+        <field name="name">Réinitialiser les médicaments</field>
+        <field name="res_model">reset.medicaments.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_medical_prescription"/>
+    </record>
+
+</odoo>

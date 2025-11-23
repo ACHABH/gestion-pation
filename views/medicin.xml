@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="medical_medicin_search_view" model="ir.ui.view">
+        <field name="name">medical.medicin.search</field>
+        <field name="model">medical.medicin</field>
+        <field name="arch" type="xml">
+            <search string="Recherche Médecins">
+                <!-- Search Fields -->
+                <field name="nom"/>
+                <field name="prenom"/>
+                <field name="specialite"/>
+                <field name="nationalite"/>
+                <field name="telephone"/>
+                
+                <!-- Specialty Filters -->
+                <filter string="Cardiologues" name="cardiologue" domain="[('specialite', '=', 'cardiologue')]"/>
+                <filter string="Ophtalmologues" name="ophtalmologue" domain="[('specialite', '=', 'ophtalmologue')]"/>
+                <filter string="Neurologues" name="neurologue" domain="[('specialite', '=', 'neurologue')]"/>
+                <filter string="Généralistes" name="generaliste" domain="[('specialite', '=', 'generaliste')]"/>
+                
+                <!-- Specialty Groups -->
+                <group string="Filtres" name="groupby">
+                    <filter string="Spécialistes" name="specialistes" 
+                            domain="[('specialite', '!=', 'generaliste')]"/>
+                </group>
+                
+                <!-- Group By -->
+                <group expand="0" string="Grouper Par">
+                    <filter string="Spécialité" name="specialite" context="{'group_by': 'specialite'}"/>
+                    <filter string="Nationalité" name="nationalite" context="{'group_by': 'nationalite'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_medicin_form_view">
+        <field name="name">medical.medicin.form</field>
+        <field name="model">medical.medicin</field>
+        <field name="arch" type="xml">
+            <form string="Médecin">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="nom"/>
+                            <field name="prenom"/>
+                            <field name="specialite"/>
+                        </group>
+                        <group>
+                            <field name="nationalite"/>
+                            <field name="telephone"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Rendez-vous">
+                            <field name="rendez_vous_ids" readonly="1">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="patient_id"/>
+                                    <field name="motif"/>
+                                    <field name="etat"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Prescriptions">
+                            <field name="prescription_ids" readonly="1">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="patient_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="medical_medicin_tree_view" model="ir.ui.view">
+        <field name="name">medical.medicin.tree</field>
+        <field name="model">medical.medicin</field>
+        <field name="arch" type="xml">
+            <tree string="Médecins">
+                <field name="nom"/>
+                <field name="prenom"/>
+                <field name="specialite"/>
+                <field name="nationalite"/>
+                <field name="telephone"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_medical_medicin" model="ir.actions.act_window">
+        <field name="name">Médecins</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.medicin</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="medical_medicin_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer votre premier médecin
+            </p>
+        </field>
+    </record>
+
+    <menuitem 
+        id="menu_medical_root" 
+        name="Gestion Médicale" 
+        web_icon="gestion_medical,static/description/icon.png"
+        sequence="10"/>
+
+    <menuitem 
+        id="menu_medical_medicin" 
+        name="Médecins" 
+        parent="menu_medical_root" 
+        action="action_medical_medicin"
+        sequence="10"/>
+</odoo>

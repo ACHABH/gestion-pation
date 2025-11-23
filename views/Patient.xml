@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="medical_patient_form_view" model="ir.ui.view">
+        <field name="name">medical.patient.form</field>
+        <field name="model">medical.patient</field>
+        <field name="arch" type="xml">
+            <form string="Patient">
+                <header>
+                    <button name="%(action_prescription_wizard)d" 
+                            string="Créer une prescription" 
+                            type="action" 
+                            class="oe_highlight"
+                            groups="gestion_patient.group_medical_admin"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="nom"/>
+                            <field name="prenom"/>
+                            <field name="date_naissance"/>
+                        </group>
+                        <group>
+                            <field name="genre"/>
+                            <field name="email"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Rendez-vous">
+                            <field name="rendez_vous_ids" readonly="1">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="motif"/>
+                                    <field name="medecin_id"/>
+                                    <field name="etat"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Prescriptions">
+                            <field name="prescription_ids" readonly="1">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="medecin_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="medical_patient_tree_view" model="ir.ui.view">
+        <field name="name">medical.patient.tree</field>
+        <field name="model">medical.patient</field>
+        <field name="arch" type="xml">
+            <tree string="Patients">
+                <field name="nom"/>
+                <field name="prenom"/>
+                <field name="date_naissance"/>
+                <field name="genre"/>
+                <field name="email"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Patient Search View -->
+    <record id="medical_patient_search_view" model="ir.ui.view">
+        <field name="name">medical.patient.search</field>
+        <field name="model">medical.patient</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher un patient">
+                <!-- Search Fields -->
+                <field name="nom"/>
+                <field name="prenom"/>
+                <field name="email"/>
+                <field name="date_naissance"/>
+                
+                <!-- Gender Filters -->
+                <filter string="Hommes" name="homme" domain="[('genre', '=', 'homme')]"/>
+                <filter string="Femmes" name="femme" domain="[('genre', '=', 'femme')]"/>
+                
+                <!-- Age Filters -->
+                <filter string="Mineurs" name="mineurs" 
+                        domain="[('date_naissance', '>=', (context_today() - relativedelta(years=18)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Adultes" name="adultes" 
+                        domain="[('date_naissance', '&lt;', (context_today() - relativedelta(years=18)).strftime('%Y-%m-%d'))]"/>
+                
+                <!-- Group By -->
+                <group expand="0" string="Grouper Par">
+                    <filter string="Genre" name="genre" context="{'group_by': 'genre'}"/>
+                    <filter string="Année de naissance" name="annee" context="{'group_by': 'date_naissance:year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Patient Action Window -->
+    <record id="action_medical_patient" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.patient</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="medical_patient_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer votre premier patient
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu item -->
+    <menuitem id="menu_medical_patient"
+              name="Patients"
+              parent="menu_medical_root"
+              action="action_medical_patient"
+              sequence="20"/>
+</odoo>
