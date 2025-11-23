@@ -8,6 +8,8 @@ class LigneMedicament(models.Model):
     medicament_id = fields.Many2one(
         'medical.medicament', string="Médicament", required=True)
     prescription_id = fields.Many2one(
-        'medical.prescription', string="Prescription", required=True)
+        'medical.prescription', string="Prescription")
+    dossier_id = fields.Many2one(
+        'medical.dossier', string="Dossier")
     date_prise = fields.Date(string="Date de prise", required=True)
     posologie = fields.Char(string="Posologie", required=True)

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Dossier Form View -->
+    <record id="medical_dossier_form_view" model="ir.ui.view">
+        <field name="name">medical.dossier.form</field>
+        <field name="model">medical.dossier</field>
+        <field name="arch" type="xml">
+            <form string="Dossier">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="numéro_dossier"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="medecin_id"/>
+                            <field name="patient_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="observation" widget="text"/>
+                    </group>
+                    <notebook>
+                        <page string="Médicaments">
+                            <field name="medicament_ids">
+                                <tree editable="bottom">
+                                    <field name="medicament_id"/>
+                                    <field name="date_prise"/>
+                                    <field name="posologie"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Dossier Tree View -->
+    <record id="medical_dossier_tree_view" model="ir.ui.view">
+        <field name="name">medical.dossier.tree</field>
+        <field name="model">medical.dossier</field>
+        <field name="arch" type="xml">
+            <tree string="Dossiers">
+                <field name="numéro_dossier"/>
+                <field name="date"/>
+                <field name="medecin_id"/>
+                <field name="patient_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Dossier Search View -->
+    <record id="medical_dossier_search_view" model="ir.ui.view">
+        <field name="name">medical.dossier.search</field>
+        <field name="model">medical.dossier</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher un dossier">
+                <field name="numéro_dossier"/>
+                <field name="medecin_id"/>
+                <field name="patient_id"/>
+                <field name="date"/>
+                <group expand="0" string="Grouper Par">
+                    <filter string="Médecin" name="medecin" context="{'group_by': 'medecin_id'}"/>
+                    <filter string="Patient" name="patient" context="{'group_by': 'patient_id'}"/>
+                    <filter string="Date" name="date" context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Dossier Action Window -->
+    <record id="action_medical_dossier" model="ir.actions.act_window">
+        <field name="name">Dossiers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.dossier</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="medical_dossier_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer votre premier dossier
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu item -->
+    <menuitem id="menu_medical_dossier"
+              name="Dossiers"
+              parent="menu_medical_root"
+              action="action_medical_dossier"
+              sequence="40"/>
+</odoo>

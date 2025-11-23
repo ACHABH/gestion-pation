@@ -13,6 +13,7 @@
                             groups="gestion_patient.group_medical_admin"/>
                 </header>
                 <sheet>
+                    <field name="photo" widget="image" class="oe_avatar" style="max-width: 150px; max-height: 150px;"/>
                     <group>
                         <group>
                             <field name="nom"/>
@@ -63,7 +64,6 @@
         </field>
     </record>
 
-    <!-- Patient Search View -->
     <record id="medical_patient_search_view" model="ir.ui.view">
         <field name="name">medical.patient.search</field>
         <field name="model">medical.patient</field>
@@ -75,17 +75,14 @@
                 <field name="email"/>
                 <field name="date_naissance"/>
                 
-                <!-- Gender Filters -->
                 <filter string="Hommes" name="homme" domain="[('genre', '=', 'homme')]"/>
                 <filter string="Femmes" name="femme" domain="[('genre', '=', 'femme')]"/>
                 
-                <!-- Age Filters -->
                 <filter string="Mineurs" name="mineurs" 
                         domain="[('date_naissance', '>=', (context_today() - relativedelta(years=18)).strftime('%Y-%m-%d'))]"/>
                 <filter string="Adultes" name="adultes" 
                         domain="[('date_naissance', '&lt;', (context_today() - relativedelta(years=18)).strftime('%Y-%m-%d'))]"/>
                 
-                <!-- Group By -->
                 <group expand="0" string="Grouper Par">
                     <filter string="Genre" name="genre" context="{'group_by': 'genre'}"/>
                     <filter string="Année de naissance" name="annee" context="{'group_by': 'date_naissance:year'}"/>
@@ -94,7 +91,6 @@
         </field>
     </record>
 
-    <!-- Patient Action Window -->
     <record id="action_medical_patient" model="ir.actions.act_window">
         <field name="name">Patients</field>
         <field name="type">ir.actions.act_window</field>
@@ -108,7 +104,6 @@
         </field>
     </record>
 
-    <!-- Menu item -->
     <menuitem id="menu_medical_patient"
               name="Patients"
               parent="menu_medical_root"

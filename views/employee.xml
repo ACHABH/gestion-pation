@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <!-- Extend the employee form view to add custom fields -->
+<odoo>S
     <record id="view_employee_form_inherit" model="ir.ui.view">
         <field name="name">hr.employee.form.inherit</field>
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
             
-            <!-- Add date_debut and nombre_annee inside active_group -->
             <xpath expr="//field[@name='active']" position="after">
                 <field name="date_debut"/>
                 <field name="nombre_annee"/>
             </xpath>
             
-            <!-- Replace visa_expire with num_retraite and date_retraite -->
             <xpath expr="//field[@name='visa_expire']" position="replace">
                 <field name="num_retraite"/>
                 <field name="date_retraite"/>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_ordonnance_photo" model="ir.actions.report">
+        <field name="name">Ordonnance avec Photo</field>
+        <field name="model">medical.prescription</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestion_patient.report_ordonnance_photo_document</field>
+        <field name="report_file">gestion_patient.report_ordonnance_photo_document</field>
+        <field name="binding_model_id" ref="model_medical_prescription"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_ordonnance_photo_document" inherit_id="gestion_patient.report_ordonnance_document">
+        <xpath expr="//div[contains(@style, 'margin-bottom: 30px')][h4[text()='Patient']]" position="replace">
+            <div style="margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; background-color: #f9f9f9;">
+                <h4 style="margin-top: 0;">Patient</h4>
+                <div style="display: flex; align-items: center;">
+                    
+                    <div style="margin-right: 20px;">
+                        <t t-if="doc.patient_id.photo">
+                            <img t-attf-src="data:image/*;base64,{{doc.patient_id.photo}}" 
+                                 style="max-width: 100px; max-height: 100px; border-radius: 10px; border: 2px solid #007bff;"/>
+                        </t>
+                        <t t-else="">
+                            <div style="width: 100px; height: 100px; background-color: #ddd; border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 2px solid #ccc;">
+                                <span style="color: #666; font-size: 12px;">Pas de photo</span>
+                            </div>
+                        </t>
+                    </div>
+                    
+                    <div>
+                        <strong>Nom:</strong>
+                        <span t-field="doc.patient_id"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

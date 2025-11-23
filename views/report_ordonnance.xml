@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_ordonnance" model="ir.actions.report">
+        <field name="name">Ordonnance</field>
+        <field name="model">medical.prescription</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestion_patient.report_ordonnance_document</field>
+        <field name="report_file">gestion_patient.report_ordonnance_document</field>
+        <field name="binding_model_id" ref="model_medical_prescription"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_ordonnance_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Header -->
+                        <div class="text-center" style="margin-bottom: 30px;">
+                            <h2 style="border-bottom: 2px solid #000; padding-bottom: 10px;">
+                                ORDONNANCE MÉDICALE
+                            </h2>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <strong>Date:</strong>
+                            <span t-field="doc.date"/>
+                        </div>
+
+                        <div style="margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; background-color: #f9f9f9;">
+                            <h4 style="margin-top: 0;">Médecin Prescripteur</h4>
+                            <div>
+                                <strong>Nom:</strong>
+                                <span t-field="doc.medecin_id.nom"/>
+                                <span t-field="doc.medecin_id.prenom"/>
+                            </div>
+                            <div>
+                                <strong>Spécialité:</strong>
+                                <span t-field="doc.medecin_id.specialite"/>
+                            </div>
+                            <div>
+                                <strong>Téléphone:</strong>
+                                <span t-field="doc.medecin_id.telephone"/>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; background-color: #f9f9f9;">
+                            <h4 style="margin-top: 0;">Patient</h4>
+                            <div>
+                                <strong>Nom:</strong>
+                                <span t-field="doc.patient_id"/>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 40px;">
+                            <h4>Médicaments Prescrits</h4>
+                            <table class="table table-bordered" style="margin-top: 15px;">
+                                <thead style="background-color: #007bff; color: white;">
+                                    <tr>
+                                        <th style="width: 40%;">Médicament</th>
+                                        <th style="width: 35%;">Posologie</th>
+                                        <th style="width: 25%;">Date de prise</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="doc.medicament_ids" t-as="ligne">
+                                        <tr>
+                                            <td><span t-field="ligne.medicament_id"/></td>
+                                            <td><span t-field="ligne.posologie"/></td>
+                                            <td><span t-field="ligne.date_prise"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="margin-top: 60px; text-align: right;">
+                            <div style="margin-bottom: 80px;">
+                                <strong>Signature du médecin</strong>
+                            </div>
+                            <div>
+                                <span>Dr. </span>
+                                <span t-field="doc.medecin_id.nom"/>
+                                <span t-field="doc.medecin_id.prenom"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

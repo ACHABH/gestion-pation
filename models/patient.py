@@ -14,6 +14,7 @@ class Patient(models.Model):
     ], string="Genre", required=True)
     email = fields.Char(string="Email")
     date_naissance = fields.Date(string="Date de naissance", required=True)
+    photo = fields.Binary(string="Photo", attachment=True)
 
     prescription_ids = fields.One2many(
         'medical.prescription', 'patient_id', string="Prescriptions")
